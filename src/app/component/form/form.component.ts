@@ -22,6 +22,10 @@ export class FormComponent implements OnInit {
     });
   }
 
+  get f() {
+    return this.personaldetails.controls;
+  }
+
   ngOnInit(): void {}
 
   onNext() {

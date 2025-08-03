@@ -8,29 +8,29 @@
         <mat-label>Name</mat-label>
         <input
           matInput
-          placeholder="Full Name"
           formControlName="name"
+          placeholder="Full Name"
           required
         />
-        <mat-error *ngIf="personaldetails.get('name')?.hasError('required')">
-          Name is required
+        <mat-error *ngIf="f['name'].touched && f['name'].hasError('required')">
+          Name is required.
         </mat-error>
-        <mat-error *ngIf="personaldetails.get('name')?.hasError('minlength')">
-          Name must be at least 3 characters long
+        <mat-error *ngIf="f['name'].dirty && f['name'].hasError('minlength')">
+          Name must be at least 3 characters long.
         </mat-error>
       </mat-form-field>
 
       <!-- Email -->
       <mat-form-field appearance="fill" class="w-100">
         <mat-label>Email</mat-label>
-        <input matInput placeholder="Email" formControlName="email" required />
-        <mat-error *ngIf="personaldetails.get('email')?.hasError('required')">
-          Email is required
-        </mat-error>
+        <input matInput formControlName="email" placeholder="Email" required />
         <mat-error
-          *ngIf="personaldetails.get('email')?.hasError('invalidEmail')"
+          *ngIf="f['email'].touched && f['email'].hasError('required')"
         >
-          Enter a valid email address
+          Email is required.
+        </mat-error>
+        <mat-error *ngIf="f['email'].dirty && f['email'].hasError('email')">
+          Enter a valid email address.
         </mat-error>
       </mat-form-field>
 
@@ -39,21 +39,21 @@
         <mat-label>Phone Number</mat-label>
         <input
           matInput
-          placeholder="Phone Number"
           formControlName="phone"
+          placeholder="Phone Number"
           required
         />
-        <mat-error *ngIf="personaldetails.get('phone')?.hasError('required')">
-          Phone number is required
-        </mat-error>
         <mat-error
-          *ngIf="personaldetails.get('phone')?.hasError('invalidPhoneNumber')"
+          *ngIf="f['phone'].touched && f['phone'].hasError('required')"
         >
-          Enter a valid phone number
+          Phone number is required.
+        </mat-error>
+        <mat-error *ngIf="f['phone'].dirty && f['phone'].hasError('pattern')">
+          Enter a valid 10-digit phone number.
         </mat-error>
       </mat-form-field>
 
-      <!-- Date of Birth with Datepicker -->
+      <!-- Date of Birth -->
       <mat-form-field appearance="fill" class="w-100">
         <mat-label>Date Of Birth</mat-label>
         <input
@@ -64,15 +64,16 @@
         />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-        <mat-error *ngIf="personaldetails.get('dob')?.hasError('required')">
-          Date of Birth is required
+
+        <mat-error *ngIf="f['dob'].touched && f['dob'].hasError('required')">
+          Date of Birth is required.
         </mat-error>
-        <mat-error *ngIf="personaldetails.get('dob')?.hasError('invalidDOB')">
-          Enter a valid Date of Birth
+        <mat-error *ngIf="f['dob'].dirty && f['dob'].hasError('underage')">
+          You must be at least 21 years old.
         </mat-error>
       </mat-form-field>
 
-      <!-- Gender using mat-select -->
+      <!-- Gender -->
       <mat-form-field appearance="fill" class="w-100">
         <mat-label>Gender</mat-label>
         <mat-select formControlName="gender" required>
@@ -80,12 +81,14 @@
           <mat-option value="male">Male</mat-option>
           <mat-option value="other">Other</mat-option>
         </mat-select>
-        <mat-error *ngIf="personaldetails.get('gender')?.hasError('required')">
-          Gender is required
+        <mat-error
+          *ngIf="f['gender'].touched && f['gender'].hasError('required')"
+        >
+          Gender is required.
         </mat-error>
       </mat-form-field>
 
-      <!-- Marital Status using mat-select -->
+      <!-- Marital Status -->
       <mat-form-field appearance="fill" class="w-100">
         <mat-label>Marital Status</mat-label>
         <mat-select formControlName="maritalstatus" required>
@@ -94,19 +97,22 @@
           <mat-option value="divorced">Divorced</mat-option>
         </mat-select>
         <mat-error
-          *ngIf="personaldetails.get('maritalstatus')?.hasError('required')"
+          *ngIf="
+            f['maritalstatus'].touched &&
+            f['maritalstatus'].hasError('required')
+          "
         >
-          Marital Status is required
+          Marital Status is required.
         </mat-error>
       </mat-form-field>
 
       <!-- Next Button -->
       <div>
         <button
-          (click)="onNext()"
           mat-button
           type="button"
           matStepperNext
+          (click)="onNext()"
           [disabled]="personaldetails.invalid"
         >
           Next
@@ -115,4 +121,6 @@
     </form>
   </mat-step>
 </mat-stepper>
-{{ personaldetails.value | json }}
+
+<!-- Show form value -->
+<pre>{{ personaldetails.value | json }}</pre>
