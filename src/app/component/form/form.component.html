@@ -1,0 +1,118 @@
+<mat-stepper #stepper>
+  <mat-step [stepControl]="personaldetails">
+    <form [formGroup]="personaldetails">
+      <ng-template matStepLabel>Personal Details</ng-template>
+
+      <!-- Name -->
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          placeholder="Full Name"
+          formControlName="name"
+          required
+        />
+        <mat-error *ngIf="personaldetails.get('name')?.hasError('required')">
+          Name is required
+        </mat-error>
+        <mat-error *ngIf="personaldetails.get('name')?.hasError('minlength')">
+          Name must be at least 3 characters long
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Email -->
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" required />
+        <mat-error *ngIf="personaldetails.get('email')?.hasError('required')">
+          Email is required
+        </mat-error>
+        <mat-error
+          *ngIf="personaldetails.get('email')?.hasError('invalidEmail')"
+        >
+          Enter a valid email address
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Phone Number -->
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Phone Number</mat-label>
+        <input
+          matInput
+          placeholder="Phone Number"
+          formControlName="phone"
+          required
+        />
+        <mat-error *ngIf="personaldetails.get('phone')?.hasError('required')">
+          Phone number is required
+        </mat-error>
+        <mat-error
+          *ngIf="personaldetails.get('phone')?.hasError('invalidPhoneNumber')"
+        >
+          Enter a valid phone number
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Date of Birth with Datepicker -->
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Date Of Birth</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="dob"
+          required
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="personaldetails.get('dob')?.hasError('required')">
+          Date of Birth is required
+        </mat-error>
+        <mat-error *ngIf="personaldetails.get('dob')?.hasError('invalidDOB')">
+          Enter a valid Date of Birth
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Gender using mat-select -->
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender" required>
+          <mat-option value="female">Female</mat-option>
+          <mat-option value="male">Male</mat-option>
+          <mat-option value="other">Other</mat-option>
+        </mat-select>
+        <mat-error *ngIf="personaldetails.get('gender')?.hasError('required')">
+          Gender is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Marital Status using mat-select -->
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Marital Status</mat-label>
+        <mat-select formControlName="maritalstatus" required>
+          <mat-option value="single">Single</mat-option>
+          <mat-option value="married">Married</mat-option>
+          <mat-option value="divorced">Divorced</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="personaldetails.get('maritalstatus')?.hasError('required')"
+        >
+          Marital Status is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Next Button -->
+      <div>
+        <button
+          (click)="onNext()"
+          mat-button
+          type="button"
+          matStepperNext
+          [disabled]="personaldetails.invalid"
+        >
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+</mat-stepper>
+{{ personaldetails.value | json }}
